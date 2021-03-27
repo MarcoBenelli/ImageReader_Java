@@ -4,10 +4,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
-/**
- * This class demonstrates how to load an Image from an external file
- */
 public class Main {
 
     public static void main(String[] args) {
@@ -16,19 +15,23 @@ public class Main {
         File[] imgNames = inputDir.listFiles();
         assert imgNames != null;
 
-        BufferedImage[] images = new BufferedImage[imgNames.length];
+        AsyncImgReader ir = new AsyncImgReader(8);
+        ir.read(imgNames);
+        Future<BufferedImage>[] images = ir.getImages();
 
-        SequentialImgReader sir = new SequentialImgReader();
-        try {
-            sir.read(images, imgNames);
-        } catch (IOException e) {
-            e.printStackTrace();
+        /*
+        for (int i = 0; i < images.length; i++) {
+            while (!images[i].isDone())
+                ;
+            System.out.printf("image %d is done\n", i);
         }
+        */
 
         for (int i = 0; i < images.length; i++) {
             try {
-                ImageIO.write(images[i], "jpg", new File("output_images/" + imgNames[i].getName()));
-            } catch (IOException e) {
+                ImageIO.write(images[i].get(), "jpg", new File("output_images/" + imgNames[i].getName()));
+                System.out.printf("gotten image %d\n", i);
+            } catch (IOException | InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         }
