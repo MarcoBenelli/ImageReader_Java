@@ -27,18 +27,19 @@ public class AsyncImgReader {
 
     private final int numThreads;
     private Future<BufferedImage>[] images;
+
+    static class ImgReaderThread implements Callable<BufferedImage> {
+        public ImgReaderThread(File imgName) {
+            this.imgName = imgName;
+        }
+
+        @Override
+        public BufferedImage call() throws IOException {
+            System.out.printf("read image %s\n", imgName);
+            return ImageIO.read(imgName);
+        }
+
+        private final File imgName;
+    }
 }
 
-class ImgReaderThread implements Callable<BufferedImage> {
-    public ImgReaderThread(File imgName) {
-        this.imgName = imgName;
-    }
-
-    @Override
-    public BufferedImage call() throws IOException {
-        System.out.printf("read image %s\n", imgName);
-        return ImageIO.read(imgName);
-    }
-
-    private final File imgName;
-}
