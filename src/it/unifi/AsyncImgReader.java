@@ -17,7 +17,7 @@ public class AsyncImgReader {
         for (int i = 0; i < images.length; i++)
             images[i] = executor.submit(new ImgReaderThread(imgNames[i]));
         executor.shutdown();
-        System.out.println("read all images");
+        //System.out.println("read all images");
     }
 
     public Future<BufferedImage>[] getImages() {
@@ -34,7 +34,7 @@ public class AsyncImgReader {
 
         @Override
         public BufferedImage call() throws IOException {
-            System.out.printf("read image %s\n", imgName);
+            //System.out.printf("read image %s\n", imgName);
             return ImageIO.read(imgName);
         }
 

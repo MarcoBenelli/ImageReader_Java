@@ -21,7 +21,7 @@ public class SyncImgReader {
 
         for (ImgReaderThread thread : threads)
             thread.join();
-        System.out.println("read all images");
+        //System.out.println("read all images");
     }
 
     public BufferedImage[] getImages() {
@@ -42,7 +42,7 @@ public class SyncImgReader {
         @Override
         public void run() {
             for (int i = threadIndex; i < images.length; i += numThreads) {
-                System.out.printf("Thread %d reads image %d\n", threadIndex, i);
+                //System.out.printf("Thread %d reads image %d\n", threadIndex, i);
                 try {
                     images[i] = ImageIO.read(imgNames[i]);
                 } catch (IOException e) {
