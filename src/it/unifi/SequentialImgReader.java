@@ -8,7 +8,7 @@ import java.io.IOException;
 public class SequentialImgReader {
     public void read(File[] imgNames) throws IOException {
         images = new BufferedImage[imgNames.length];
-        for (int i = 0; i < imgNames.length; i++) {
+        for (int i = 0; i < images.length; i++) {
             images[i] = ImageIO.read(imgNames[i]);
         }
     }

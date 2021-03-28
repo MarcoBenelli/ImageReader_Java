@@ -14,9 +14,8 @@ public class AsyncImgReader {
     public void read(File[] imgNames) {
         images = new Future[imgNames.length];
         ExecutorService executor = Executors.newFixedThreadPool(numThreads);
-        for (int i = 0; i < imgNames.length; i++) {
+        for (int i = 0; i < images.length; i++)
             images[i] = executor.submit(new ImgReaderThread(imgNames[i]));
-        }
         executor.shutdown();
         System.out.println("read all images");
     }
